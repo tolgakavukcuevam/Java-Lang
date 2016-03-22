@@ -1915,10 +1915,14 @@ public abstract class AbstractBytes implements Bytes {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <E> void writeEnum(@Nullable E e) {
+    public <E> void writeEnum(@NotNull E e) {
         Class aClass;
-        if (e == null || e instanceof CharSequence)
+        if (e == null || e instanceof CharSequence) {
             aClass = String.class;
+            if (e == null) {
+                e = (E) new String("");
+            }
+        }
         else
             aClass = (Class) e.getClass();
         writeInstance(aClass, e);
